@@ -2,12 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import {Component} from 'react';
 import {CardList} from './components/card-list/card-list';
+import {SearchBox} from './components/search-box/search-box';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            monsters: []
+            monsters: [],
+            searchField: ''
         }
     }
 
@@ -18,9 +20,15 @@ export default class App extends Component {
     }
 
     render() {
+        const {monsters, searchField} = this.state;
+        const filterMonsters = monsters.filter(monster => monster.name.toLowerCase().includes(searchField.toLowerCase()));
         return (
             <div className="App">
-                <CardList monsters={this.state.monsters} />
+                <SearchBox
+                    placeholder='search'
+                    handleChange={e => this.setState({searchField: e.target.value})}
+                />
+                <CardList monsters={filterMonsters} />
             </div>
         )
     }
